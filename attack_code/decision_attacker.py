@@ -24,13 +24,11 @@ class decisionAttacker():
                     b_yes = self.dbreacher.getSYesReferenceScore(len(guess)) 
                     b_no = self.dbreacher.getSNoReferenceScore(len(guess), string.ascii_lowercase)
                 except RuntimeError:
-                    #print("table shrunk too early on reference score guess")
                     return False
                 self.bYesReferenceScores[len(guess)] = b_yes
                 self.bNoReferenceScores[len(guess)] = b_no
             shrunk = self.dbreacher.insertGuessAndCheckIfShrunk(guess)
             if shrunk:
-                #print("table shrunk too early on guess " + guess)
                 return False
             while not shrunk:
                 shrunk = self.dbreacher.addCompressibleByteAndCheckIfShrunk()
@@ -50,3 +48,4 @@ class decisionAttacker():
             min_b = min(bNo, min(b, bYes))
             guessScoreTuples.append((g, (bNo - min_b, b - min_b, bYes - min_b)))
         return guessScoreTuples
+

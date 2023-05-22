@@ -18,7 +18,6 @@ for c in ["snappy", "zlib"]:
                 ref_scores.append((int(row[2]) if row[2] != "0" else 1, int(row[3]), int(row[4])))
             else:
                 pass
-                #print(row)
     true_labels = np.array(true_labels)
     pcts = [1 - (b_yes - b) / max(b_yes - b_no, 1) for b_no, b, b_yes in ref_scores]
 
@@ -38,22 +37,11 @@ for c in ["snappy", "zlib"]:
     for i in range(0,len(thresholds)):
     	f.write(str(thresholds[i])+","+str(accuracies[i]) + "\n")
     f.close()
-    #print(c + " thresholds: "+ str(thresholds))
-    #print(c + " accuracies: "+ str(accuracies))
 
     maximum_accuracy = np.max(accuracies)
     maximum_threshold = -0.5 + 0.001*np.argmax(accuracies)
     print(c + ": maximum accuracy achieved: " + str(maximum_accuracy))
     print(c + ": maximum accuracy threshold: " + str(maximum_threshold))
-
-    '''
-    print("Errors:")
-    labels = np.array([pct >= maximum_threshold for pct in pcts])
-    for idx, label in enumerate(labels):
-        l = 1 if label else 0
-        if l != true_labels[idx]:
-            print(str(idx) + "," + str(true_labels[idx]) + ": " + str(pcts[idx]))
-    '''
 
 plt.legend()
 ax.grid()

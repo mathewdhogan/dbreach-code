@@ -11,19 +11,6 @@ def get_filler_str(data_len : int):
                 k=data_len))
 
 base = "jhebsrmefvaisogwryffeqwbioacednwphqljozpljtlrotqatkrplpwxzyodcvqtcexgywhhtgzdftbudljkgezhfxvfdcfadgsxhcdkgbmuwbmmwgnolypmaeeidmmotmohqccqnfiiwdgkmsxerhtijbzbgxcgfbkghndlwpqlaokhgyuipnvhggkbjvkeahilfglg"
-'''
-prefix = get_filler_str(500)
-suffix = get_filler_str(1600 - 500)
-base_size = len(snappy.compress(prefix + base + suffix))
-print("string: X + X[:n]")
-for size in range(len(base)):
-    copy = base[:size]
-    comp_size = len(snappy.compress(prefix + base + copy + suffix))
-    print("n = " + str(size) + ", size increase from n=0 = " + str(comp_size - base_size))
-
-print("")
-print("")
-'''
 
 regex = "*^(n)"
 print(regex)

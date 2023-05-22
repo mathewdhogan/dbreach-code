@@ -12,14 +12,7 @@ maxRowSize = 200
 control = utils.MariaDBController("testdb")
 
 table = "victimtable"
-'''
-print("Reading in all guesses... \n")
-possibilities = []
-with open("demo_names.txt") as f:
-    for line in f:
-        name = line.strip().lower()
-        possibilities.append(name)
-'''
+
 prefix_len_to_poses = dict()
 for prefix_len in range(10, 21):
     prefix_len_to_poses[prefix_len] = dict()
@@ -31,8 +24,6 @@ for prefix_len in range(10, 21):
     prefix_len_to_poses_new[prefix_len] = dict()
     for i in range(20):
         prefix_len_to_poses_new[prefix_len][i] = []
-
-max_inc_per_round = 4
 
 for trial in range(10):
     print("trial = " + str(trial))
@@ -67,18 +58,6 @@ for trial in range(10):
 
         attacker = k_of_n_attacker.kOfNAttacker(len(string.ascii_lowercase), dbreacher, possibilities, True)
         while i < 20:
-            '''
-            control.drop_table(table)
-            time.sleep(1)
-            control.create_basic_table(table,
-                        varchar_len=maxRowSize,
-                    compressed=True,
-                    encrypted=True)
-            control.insert_row(table, 0, secret)
-            dbreacher = dbreacher_impl.DBREACHerImpl(control, table, num_secrets, maxRowSize, string.printable.replace(string.ascii_lowercase, '').replace('*', ''), ord('*'))
-
-            attacker = k_of_n_attacker.kOfNAttacker(len(string.ascii_lowercase), dbreacher, possibilities, True)
-            '''
             success = attacker.setUp()
             if not success:
                 print("Retrying setup")
@@ -154,7 +133,6 @@ for trial in range(10):
                         break
                 print ("run = " + str(i) + "; NEW pos = " + str(place) + "; points behind = " + str(points_behind) + "; points ahead = " + str(points_ahead))
                 
-
                 print(normalized)
 
 
@@ -167,7 +145,3 @@ for trial in range(10):
         print("")
         print(prefix_len_to_poses_new)
 
-
-
-        
-        

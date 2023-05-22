@@ -21,7 +21,6 @@ class MariaDBController:
         max_sleeps = 20
         sleeps = 0
         while os.path.getmtime(self.db_path + tablename + ".ibd") == self.old_edit_time:
-            #print("sleeping")
             time.sleep(0.1)
             sleeps += 1
             if sleeps > max_sleeps:
@@ -82,10 +81,6 @@ class MariaDBController:
     def get_table_size(self, tablename, verbose=False):
         table_path = self.db_path + tablename + ".ibd"
         table_size = int(subprocess.check_output(["ls", "-s", "--block-size=1", table_path]).split()[0])
-        #table_size = int(os.path.getsize(table_path))
-        #table_size = int(subprocess.check_output(["df", "-h", "--output=used", "--block-size=1", table_path]).split()[1])
-        #table_size = int(subprocess.check_output(["du", "-h", "--block-size=1", table_path]).split()[0])
-        if verbose:
             print("Size of table " + tablename + ": " + str(table_size))
         return table_size
 
@@ -153,29 +148,3 @@ def get_random_word():
     global words
     return random.choice(words)
 
-'''
-    # backup using mysqldump:
-    def backup_table(self, tablename):
-        backup_script = str(subprocess.check_output(["mysqldump", self.db_name, tablename])).split("\\n")
-        #purge commented out lines empty lines from backup_script:
-        cleaned_script = []
-        #keep track of current command, for commands split onto multiple lines
-        cur_command = ""
-        for line in backup_script:
-            if len(line) > 0 and line[:2] != "--" and line[:2] != "/*" and line[:2] != 'b"':
-                cur_command += line
-                if line[len(line) - 1] == ';':
-                    # exclude trailing semicolon from line
-                    cleaned_script.append(cur_command[:len(cur_command) - 1])
-                    cur_command = ""
-        self.backupdict[tablename] = cleaned_script
-'''
-'''
-    def restore_table(self, tablename):
-        if tablename in self.backupdict:
-            for command in self.backupdict[tablename]:
-                #print(command)
-                self.cur.execute(command)
-        else:
-            raise RuntimeError("Table must be backed up prior to restoring.")
-'''

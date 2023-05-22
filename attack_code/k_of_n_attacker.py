@@ -41,3 +41,4 @@ class kOfNAttacker():
                     break
 
         return winners
+

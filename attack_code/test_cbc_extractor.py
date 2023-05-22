@@ -29,7 +29,6 @@ for amp_rounds in amplification_rounds_to_try:
             for str_len in str_lens_to_try:
                 known_prefix = ''.join(random.choices(string.ascii_lowercase, k=prefix_len))
                 rest_of_str = ''.join(random.choices(string.ascii_lowercase, k=str_len))
-                #print(known_prefix + " + " + rest_of_str)
                 secret = known_prefix + rest_of_str
                 control.drop_table(table)
                 time.sleep(1)
@@ -64,7 +63,6 @@ for amp_rounds in amplification_rounds_to_try:
                         winners_by_bytes_to_shrink = [(round(1/s), g) for (s, g) in winners]
                         top_score = winners_by_bytes_to_shrink[0][0]
                         normalized = [(b - top_score, g[-1]) for (b, g) in winners_by_bytes_to_shrink]
-                        #print(normalized)
                         if compression_alg == "zlib":
                             for (b, c) in normalized:
                                 scores[c] += b
@@ -100,7 +98,6 @@ for amp_rounds in amplification_rounds_to_try:
                                 if idx < len(keys) - 1 and len(scores_to_chars[key]) == 1:
                                     points_ahead = keys[idx + 1] - key
                                 break
-                        #print("__"+str(prefix_len) + ","+str(i)+","+str(1 if place == 1 else 0)+","+str(place)+","+str(points_behind)+","+str(points_ahead) + "," + str(keys[1] - keys[0]))
 
                         i += 1
                         num_rounds += 1
@@ -108,10 +105,6 @@ for amp_rounds in amplification_rounds_to_try:
                     leaderboard = [(b, c) for (c, b) in scores.items()]
                     leaderboard.sort()
                     winner = leaderboard[0][1]
-                    #print("")
-                    #print("Chose " + winner)
-                    #print(leaderboard)
-                    #print("")
                     if winner == correct_char:
                         bytes_recovered += 1
                         known_prefix += winner
@@ -120,5 +113,4 @@ for amp_rounds in amplification_rounds_to_try:
                 endTime = time.time()
                 recovered = 1 if bytes_recovered == str_len else 0
                 print(str(prefix_len)+","+str(str_len)+","+str(recovered)+","+str(bytes_recovered / str_len)+","+str((endTime-startTime) / (bytes_recovered + (1 - recovered)))+","+str((endTime-startTime)/ ((bytes_recovered + (1 - recovered)) * 30)))
-
 

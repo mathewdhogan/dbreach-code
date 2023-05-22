@@ -9,12 +9,13 @@ ax.set(xlabel="Records on page", ylabel="accuracy", title="Accuracy of decision 
 
 text_type = sys.argv[1].replace("--", "")
 
+# fill in thresholds with chosen t_yes values:
 thresholds = dict()
 thresholds["snappy"] = 0.492
 thresholds["zlib"] = 0.515 
 #thresholds["lz4"] = 0.78
 
-
+# if graphing for MariaDB, add "lz4" back to thist list & uncomment lz4 line above
 for c in ["snappy", "zlib"]:
     ref_scores = defaultdict(lambda: [])
     true_labels = defaultdict(lambda: [])
